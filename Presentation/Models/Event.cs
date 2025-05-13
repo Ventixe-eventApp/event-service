@@ -6,7 +6,7 @@ public class Event
 {
     public string? ImagePath { get; set; }
 
-    public string Name { get; set; } = null!;
+    public string EventName { get; set; } = null!;
  
     public string ArtistName { get; set; } = null!;
 
@@ -14,9 +14,9 @@ public class Event
 
     public string Location { get; set; } = null!;
 
-    public DateTime DateTime { get; set; }
+    public DateTime StartDate { get; set; }
 
-    public DateTime EndTime { get; set; }
+    public DateTime EndDate { get; set; }
 
     public decimal Price { get; set; }
 }

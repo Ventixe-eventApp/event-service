@@ -1,5 +1,9 @@
-﻿namespace Presentation.Data;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class DataContext
+namespace Presentation.Data;
+
+public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
 {
+    public DbSet<EventEntity> Events { get; set; } 
+
 }
