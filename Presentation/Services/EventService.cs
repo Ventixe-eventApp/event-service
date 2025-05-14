@@ -5,17 +5,24 @@ using Presentation.Models;
 
 namespace Presentation.Services;
 
-public class EventService(DataContext context, IFileService fileService)
+public interface IEventService
+{
+    Task<(bool Success, string ErrorMessage)> CreateEventAsync(EventRegistrationForm form);
+    Task<IEnumerable<EventEntity>> GetAllEventsAsync();
+    Task<EventEntity?> GetEventByIdAsync(string id);
+}
+
+public class EventService(DataContext context, IFileService fileService) : IEventService
 {
     private readonly DataContext _context = context;
     private readonly IFileService _fileService = fileService;
 
-    public async Task<(bool Success, string ErrorMessage)> CreateEventAsync (EventRegistrationForm form)
+    public async Task<(bool Success, string ErrorMessage)> CreateEventAsync(EventRegistrationForm form)
     {
         ArgumentNullException.ThrowIfNull(form);
 
-      try
-      {
+        try
+        {
 
             if (form.EventImage != null)
             {
@@ -26,7 +33,7 @@ public class EventService(DataContext context, IFileService fileService)
                 }
                 catch (Exception ex)
                 {
-                    return (false, $"Error saving image: {ex.Message}");
+                    return (false, $"Error when saving image: {ex.Message}");
 
                 }
             }
@@ -48,11 +55,11 @@ public class EventService(DataContext context, IFileService fileService)
             await _context.SaveChangesAsync();
 
             return (true, string.Empty);
-           
+
         }
         catch (Exception ex)
         {
-            return(false, $"Error saving image: {ex.Message}");
+            return (false, $"Error when saving event: {ex.Message}");
         }
 
     }
@@ -60,7 +67,7 @@ public class EventService(DataContext context, IFileService fileService)
     public async Task<IEnumerable<EventEntity>> GetAllEventsAsync()
     {
         var events = await _context.Events.ToListAsync();
-       return events;
+        return events;
     }
 
     public async Task<EventEntity?> GetEventByIdAsync(string id)
