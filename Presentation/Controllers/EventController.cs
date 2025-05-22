@@ -14,8 +14,14 @@ public class EventController(IEventService eventService) : ControllerBase
 
 
     [HttpPost]
-    public async Task<IActionResult> CreateEvent([FromForm] CreateEventRequest req)
+    public async Task<IActionResult> CreateEvent(CreateEventRequest req)
     {
+
+        Console.WriteLine($"EventName: {req.EventName}");
+        Console.WriteLine($"ArtistName: {req.ArtistName}");
+        Console.WriteLine($"Location: {req.Location}");
+        Console.WriteLine($"ModelState.IsValid: {ModelState.IsValid}");
+
         if (!ModelState.IsValid)
         {
             var errors = ModelState
@@ -35,6 +41,7 @@ public class EventController(IEventService eventService) : ControllerBase
         }
         else
         {
+          
             return BadRequest(new { message = result.Error });
         }
     }

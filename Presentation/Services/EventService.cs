@@ -16,36 +16,18 @@ public interface IEventService
     Task<EventResult<Event?>> GetEventByIdAsync(string id);
 }
 
-public class EventService(IEventRepository eventRepository, IFileService fileService) : IEventService
+public class EventService(IEventRepository eventRepository) : IEventService
 {
     private readonly IEventRepository _eventRepository = eventRepository;
-    private readonly IFileService _fileService = fileService;
+
 
     public async Task<EventResult> CreateEventAsync(CreateEventRequest req)
     {
         try
         {
 
-            if (req.EventImage != null)
-            {
-                try
-                {
-                    var filePath = await _fileService.SaveFileAsync(req.EventImage);
-                    req.ImagePath = filePath;
-                }
-                catch (Exception ex)
-                {
-                    return new EventResult
-                    {
-                        Succeeded = false,
-                        Error = ex.Message
-                    };
-
-                }
-            }
-
             var entity = new EventEntity
-            {
+            {  
                 ImagePath = req.ImagePath,
                 EventName = req.EventName,
                 ArtistName = req.ArtistName,
@@ -78,6 +60,7 @@ public class EventService(IEventRepository eventRepository, IFileService fileSer
         var result = await _eventRepository.GetAll();
         var events = result.Result?.Select(x => new Event
         {
+            Id = x.Id,
             ImagePath = x.ImagePath,
             EventName = x.EventName,
             ArtistName = x.ArtistName,
@@ -101,6 +84,7 @@ public class EventService(IEventRepository eventRepository, IFileService fileSer
         {
             var selectedEvent = new Event
             {
+                Id = result.Result.Id,
                 ImagePath = result.Result.ImagePath,
                 EventName = result.Result.EventName,
                 ArtistName = result.Result.ArtistName,

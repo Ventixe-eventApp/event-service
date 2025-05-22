@@ -4,8 +4,7 @@ namespace Presentation.Models;
 
 public class CreateEventRequest
 {
-    [DataType(DataType.Upload)]
-    public IFormFile? EventImage { get; set; }
+   
     public string? ImagePath { get; set; }
 
     [Required(ErrorMessage = "You must enter a event name")]
