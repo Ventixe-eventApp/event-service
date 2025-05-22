@@ -13,8 +13,8 @@ public class EventController(IEventService eventService) : ControllerBase
     public readonly IEventService _eventService = eventService;
 
 
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateEvent([FromForm] EventRegistrationForm form)
+    [HttpPost]
+    public async Task<IActionResult> CreateEvent([FromForm] CreateEventRequest req)
     {
         if (!ModelState.IsValid)
         {
@@ -27,16 +27,33 @@ public class EventController(IEventService eventService) : ControllerBase
             return BadRequest(new { sucess = false, errors });
         }
 
+            var result = await _eventService.CreateEventAsync(req);
 
-            var result = await _eventService.CreateEventAsync(form);
-
-        if (result.Success)
+        if (result.Succeeded)
         {
             return Ok(new { message = "Event created successfully" });
         }
         else
         {
-            return BadRequest(new { message = result.ErrorMessage });
+            return BadRequest(new { message = result.Error });
         }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllEvents()
+    {
+        var events = await _eventService.GetAllEventsAsync();
+        return Ok(events);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetEventById(string id)
+    {
+        var selectedEvent = await _eventService.GetEventByIdAsync(id);
+        if (selectedEvent == null)
+        {
+            return NotFound(new { message = "Event not found" });
+        }
+        return Ok(selectedEvent);
     }
 }

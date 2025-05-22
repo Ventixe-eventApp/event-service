@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Presentation.Data;
+namespace Presentation.Data.Entities;
 
 public class EventEntity
 {
@@ -27,11 +27,11 @@ public class EventEntity
     [DataType(DataType.Date)]
     public DateTime EndDate { get; set; }
 
-    [Required]
-    public decimal Price { get; set; }
-
     [DataType(DataType.Date)]
     public DateTime Created { get; set; } = DateTime.Now;
 
+    public ICollection<EventPackageEntity> Packages { get; set; } = [];
+
 
 }
+

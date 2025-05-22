@@ -2,11 +2,12 @@
 
 namespace Presentation.Models;
 
-public class EventRegistrationForm
+public class CreateEventRequest
 {
     [DataType(DataType.Upload)]
     public IFormFile? EventImage { get; set; }
     public string? ImagePath { get; set; }
+
     [Required(ErrorMessage = "You must enter a event name")]
     public string EventName { get; set; } = null!;
     [Required(ErrorMessage = "You must enter a artist")]
@@ -21,7 +22,6 @@ public class EventRegistrationForm
     [Required(ErrorMessage = "You must enter a start date")]
     [DataType(DataType.Date)]
     public DateTime EndDate { get; set; }
-    [Required(ErrorMessage = "You must enter a price")]
-    public decimal Price { get; set; }
-
+  
+   
 }
