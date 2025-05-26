@@ -7,10 +7,11 @@ namespace Presentation.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class EventController(IEventService eventService) : ControllerBase
+public class EventController(IEventService eventService, IPackageService packageService) : ControllerBase
 {
 
     public readonly IEventService _eventService = eventService;
+    public readonly IPackageService _packageService = packageService;
 
 
     [HttpPost]
@@ -33,7 +34,7 @@ public class EventController(IEventService eventService) : ControllerBase
             return BadRequest(new { sucess = false, errors });
         }
 
-            var result = await _eventService.CreateEventAsync(req);
+        var result = await _eventService.CreateEventAsync(req);
 
         if (result.Succeeded)
         {
@@ -41,9 +42,23 @@ public class EventController(IEventService eventService) : ControllerBase
         }
         else
         {
-          
+
             return BadRequest(new { message = result.Error });
         }
+    }
+
+    [HttpPost("{eventId}/packages")]
+    public async Task<IActionResult> AddPackageToEvent(string eventId, CreatePackageRequest request)
+    {
+        
+        request.EventId = eventId;
+
+        var result = await _packageService.AddPackageToEventAsync(request);
+
+        if (result.Succeeded)
+            return Ok(new { message = "Package added to event successfully." });
+
+        return BadRequest(new { error = result.Error });
     }
 
     [HttpGet]

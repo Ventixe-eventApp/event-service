@@ -11,10 +11,14 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(x =>
-    x.UseSqlServer(builder.Configuration.GetConnectionString("EventSqlConnection")));
+    x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
 
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IPackageService, PackageService>();
+builder.Services.AddScoped<IPackageRepository, PackageRepository>();
+builder.Services.AddScoped<IEventPackageRepository, EventPackageRepository>();
+
 
 var app = builder.Build();
 

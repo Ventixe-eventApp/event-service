@@ -91,7 +91,15 @@ public class EventService(IEventRepository eventRepository) : IEventService
                 Description = result.Result.Description,
                 Location = result.Result.Location,
                 StartDate = result.Result.StartDate,
-                EndDate = result.Result.EndDate
+                EndDate = result.Result.EndDate,
+                Packages = result.Result.Packages.Select(p => new Package
+                {
+                    Id = p.Id,
+                    PackageName = p.Package.PackageName,
+                    Price = p.Package.Price,
+                    Description = p.Package.Description,
+                    AvailableQuantity = p.Package.AvailableQuantity,
+                }).ToList()
             };
             return new EventResult<Event?>
             {

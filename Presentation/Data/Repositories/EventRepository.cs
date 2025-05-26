@@ -12,7 +12,7 @@ public class EventRepository(DataContext context) : BaseRepository<EventEntity>(
     {
         try
         {
-            var entities = await _dbSet.Include(e => e.Packages).ToListAsync();
+            var entities = await _dbSet.Include(x => x.Packages).ThenInclude(x => x.Package).ToListAsync();
             return new RepositoryResult<IEnumerable<EventEntity>>
             {
                 Succeeded = true,
@@ -33,7 +33,7 @@ public class EventRepository(DataContext context) : BaseRepository<EventEntity>(
     {
         try
         {
-            var entity = await _dbSet.Include(x => x.Packages).FirstOrDefaultAsync(predicate);
+            var entity = await _dbSet.Include(x => x.Packages).ThenInclude(x => x.Package).FirstOrDefaultAsync(predicate);
 
             if (entity == null)
             {

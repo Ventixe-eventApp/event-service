@@ -19,5 +19,6 @@ public class Event
 
     public DateTime EndDate { get; set; }
 
-   
+    public List<Package> Packages { get; set; } = [];
+
 }
