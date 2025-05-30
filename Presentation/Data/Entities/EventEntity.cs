@@ -27,6 +27,8 @@ public class EventEntity
     [DataType(DataType.Date)]
     public DateTime EndDate { get; set; }
 
+    public string? SeatmapImagePath { get; set; }
+
     [DataType(DataType.Date)]
     public DateTime Created { get; set; } = DateTime.Now;
 

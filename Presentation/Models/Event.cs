@@ -18,6 +18,7 @@ public class Event
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
+    public string? SeatmapImagePath { get; set; }
 
     public List<Package> Packages { get; set; } = [];
 

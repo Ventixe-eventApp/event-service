@@ -18,11 +18,6 @@ public class EventController(IEventService eventService, IPackageService package
     public async Task<IActionResult> CreateEvent(CreateEventRequest req)
     {
 
-        Console.WriteLine($"EventName: {req.EventName}");
-        Console.WriteLine($"ArtistName: {req.ArtistName}");
-        Console.WriteLine($"Location: {req.Location}");
-        Console.WriteLine($"ModelState.IsValid: {ModelState.IsValid}");
-
         if (!ModelState.IsValid)
         {
             var errors = ModelState

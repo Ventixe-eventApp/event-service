@@ -4,11 +4,6 @@ using Presentation.Models;
 
 namespace Presentation.Services;
 
-public interface IPackageService
-{
-    Task<PackageResult> AddPackageToEventAsync(CreatePackageRequest req);
-}
-
 public class PackageService(IEventPackageRepository eventpackageRepository, IPackageRepository packageRepository) : IPackageService
 {
     private readonly IEventPackageRepository _eventpackageRepository = eventpackageRepository;

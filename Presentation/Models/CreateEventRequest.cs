@@ -20,18 +20,9 @@ public class CreateEventRequest
     [Required(ErrorMessage = "You must enter a start date")]
     [DataType(DataType.Date)]
     public DateTime EndDate { get; set; }
-  
-   
+    public string? SeatmapImagePath { get; set; }
+
+
 }
 
-public class AddEventPackagesRequest
-{
-    public string EventId { get; set; } = null!;
-    public List<EventPackageCreateRequest> Packages { get; set; } = [];
-}
 
-public class EventPackageCreateRequest
-{
-    public int PackageId { get; set; }
-    public int Quantity { get; set; }
-}

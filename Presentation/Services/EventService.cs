@@ -7,15 +7,6 @@ using Presentation.Models;
 
 namespace Presentation.Services;
 
-public interface IEventService
-{
-    Task<EventResult> CreateEventAsync(CreateEventRequest form);
-
-    Task<EventResult<IEnumerable<Event>>> GetAllEventsAsync();
-
-    Task<EventResult<Event?>> GetEventByIdAsync(string id);
-}
-
 public class EventService(IEventRepository eventRepository) : IEventService
 {
     private readonly IEventRepository _eventRepository = eventRepository;
@@ -35,6 +26,7 @@ public class EventService(IEventRepository eventRepository) : IEventService
                 Location = req.Location,
                 StartDate = req.StartDate,
                 EndDate = req.EndDate,
+                SeatmapImagePath = req.SeatmapImagePath,
 
             };
 
@@ -67,7 +59,8 @@ public class EventService(IEventRepository eventRepository) : IEventService
             Description = x.Description,
             Location = x.Location,
             StartDate = x.StartDate,
-            EndDate = x.EndDate
+            EndDate = x.EndDate,
+            SeatmapImagePath = x.SeatmapImagePath,
         });
 
         return new EventResult<IEnumerable<Event>>
@@ -92,11 +85,13 @@ public class EventService(IEventRepository eventRepository) : IEventService
                 Location = result.Result.Location,
                 StartDate = result.Result.StartDate,
                 EndDate = result.Result.EndDate,
+                SeatmapImagePath = result.Result.SeatmapImagePath,
                 Packages = result.Result.Packages.Select(p => new Package
                 {
                     Id = p.Id,
                     PackageName = p.Package.PackageName,
                     Price = p.Package.Price,
+                    SeactionType = p.Package.SeactionType,
                     Description = p.Package.Description,
                     AvailableQuantity = p.Package.AvailableQuantity,
                 }).ToList()
